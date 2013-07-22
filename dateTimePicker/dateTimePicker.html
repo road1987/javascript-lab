@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>EAS WebEditor</title>
+ <link rel="stylesheet" type="text/css" href="fmes_component.css"  />
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="fmes.dateTimePicker.js"></script>
+<script>
+
+$(document).ready(function(){
+	FMES.dateTimePicker({receiver:"#dateTime",trigger:"#dateTime",pattern:'y/m/d h:mm:ss'});
+	FMES.dateTimePicker({receiver:"#dateTime1",trigger:"#dateTime1",pattern:'y-m-d' , isShowTime:false});
+	FMES.dateTimePicker({receiver:"#dateTime2",trigger:"#dateTime2",pattern:'h:mm:ss' , isShowDate:false});
+});
+</script>
+</head>
+
+<body>
+<input style = "margin-left:300px" type="text"" id="dateTime"/>
+<input style = "margin-left:100px" type="text"" id="dateTime1"/>
+<input style = "margin-left:100px" type="text"" id="dateTime2"/>
+</body>
+</html>

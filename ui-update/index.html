@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title> New Document </title>
+  <meta name="Generator" content="EditPlus"/>
+  <meta name="Author" content=""/>
+  <meta name="Keywords" content=""/>
+  <meta name="Description" content=""/>
+  <script src="fmes.js"></script>
+ </head>
+
+ <body>
+	<input class="fmes-btn" type="button" value="button"/>
+	<input type="button" value="一"/>
+	<input type="button" value="二"/>
+ </body>
+ <script>
+
+	fmes.$('input').addListener('click' , function(){
+		if(this.value == '一'){
+			fmes.$.loadStyleSheet("button.css");
+			fmes.$.removeStyleSheet("button2.css");
+		}else{
+			fmes.$.loadStyleSheet("button2.css");
+			fmes.$.removeStyleSheet("button.css");
+		}
+	})
+ </script>
+</html>

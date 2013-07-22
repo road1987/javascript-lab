@@ -1,0 +1,60 @@
+﻿<html>
+<head>
+<title>Position:Fixed For IE6</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+	<body>
+		<div id="test" style="width:100px;border:1px solid blue;">12345中国比利亚中国人大在在在</div>
+	</body>
+	<script>
+function textSize(fontSize, text) { 
+	var span = document.createElement("span"); 
+	var result = {}; 
+	result.width = span.offsetWidth; 
+	result.height = span.offsetWidth; 
+	alert(result.width);
+	span.style.visibility = "hidden"; 
+	span.style.fontSize = fontSize;
+	document.body.appendChild(span); 
+
+	span.innerHTML = text; 
+	result.width = span.offsetWidth - result.width; 
+	result.height = span.offsetHeight - result.height; 
+	span.parentNode.removeChild(span); 
+	return result;
+}
+
+function getStringWidth(str) {
+    var width = len = str.length;
+    for(var i=0; i < len; i++) {
+        if(str.charCodeAt(i) >= 255) {
+            width++;
+        }
+    }
+    return width;
+}
+
+var str = "1国国国国国国国1a@aaaaaaaaaaaaaaaaaaaaaa";
+var width = 100;
+var size = textSize("15px", str); 
+	alert("宽：" + size.width + " 高：" + size.height);
+	alert(getStringWidth(str))
+	alert(size.width/getStringWidth(str)); 
+var enoughCharacter = parseInt( width/(size.width/getStringWidth(str)) );
+	alert("enoughCharacter: " + enoughCharacter);
+	if(getStringWidth(str) < enoughCharacter){
+		document.write(str);
+	}else{
+		var newstr = str.substr(0,enoughCharacter);
+		alert(getStringWidth(newstr));
+		if(getStringWidth(newstr) > enoughCharacter){
+			var len = getStringWidth(newstr) - enoughCharacter;
+			alert("------" + len);
+			str = str.substr(0, enoughCharacter - len);
+			alert(enoughCharacter)
+		}
+		document.write(str.substr(0,enoughCharacter-3)+"...");
+	}
+
+	</script>
+</html>

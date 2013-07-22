@@ -1,0 +1,33 @@
+/**************************************************************/
+/*dateTimePicker*/
+.fmes-dateTimePicker {width:180px;height:auto;border:1px solid #7F9DB9; font-size:12px; overflow:hidden;position:absolute;background:white;}
+
+.fmes-dateTimePicker .header {width:100%;height:25px;line-height:25px;background:#DDD;text-align:center;position:relative;}
+.fmes-dateTimePicker .header .preMonth,
+.fmes-dateTimePicker .header .nextMonth{width:25px;height:25px;position:absolute;cursor:pointer;1background:white;display:inline-block; }
+	
+.fmes-dateTimePicker .header .title{width:100%;1border:1px solid red;display:inline;}
+.fmes-dateTimePicker .header .preMonth{left:2px;top:0px; }
+.fmes-dateTimePicker .header .nextMonth{right:2px;top:0px; }
+.fmes-dateTimePicker .header .yearPanel,
+.fmes-dateTimePicker .header .monthPanel {cursor:pointer;}
+
+.fmes-dateTimePicker .body {clear:both;width:100%;height:auto;line-height:28px;background:white;}
+.fmes-dateTimePicker .body table{margin:0px auto;padding:0px;border-collapse:collapse;}
+.fmes-dateTimePicker .body th ,
+.fmes-dateTimePicker .body td {width:40px;height:20px;line-height:18px; text-align:right; padding:1px 2px;}
+.fmes-dateTimePicker .body th {text-align:center;1background:#AAA;}
+.fmes-dateTimePicker .body td {background:white;width:40px;} 
+.fmes-dateTimePicker .body a{display:inline-block; width:90%; height:18px; padding-right:2px;border:1px solid #cccccc;text-decoration:none; font-weight:bold;font-size:0.9em;color:#1C94C4;cursor:pointer;} 
+.fmes-dateTimePicker .body a:link{ color: #1C94C4; }
+.fmes-dateTimePicker .body a:visited {color: #1C94C4;}
+.fmes-dateTimePicker .body a:hover	{ border:1px solid #FED22F; color:#C77405;}
+
+.fmes-dateTimePicker .body a.selected {border:1px solid #FED22F ;color:black;}
+.fmes-dateTimePicker .body a.today {background:#FFF0A5;border:1px solid #FED22F ;color:black;}
+
+.fmes-dateTimePicker .timePanel {width:100%;height:30px; line-height:30px;background:#EEE;margin-top:4px;padding-left:2px;text-align:left;}
+.fmes-dateTimePicker .timePanel span {cursor:pointer}
+
+.fmes-dateTimePicker .toolbarPanel {width:100%;height:25px;line-height:25px;background:#DDD;margin-top:2px;}
+.fmes-dateTimePicker .toolbarPanel input{border:1px solid gray;height:18px; margin-left:12px;margin-top:4px;}

@@ -1,0 +1,66 @@
+<html>
+<head>
+	<style type="text/css">
+		.box {
+			width : 360px ; 
+			height : 230px ; 
+			border:1px solid black;
+			margin : 0px auto;
+			background:url("_The_Horse_in_Motion.jpg") repeat;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="box"></div>
+</body>
+<script>
+
+	HorseMotion = (function(){
+		var box = document.getElementsByTagName("div")[0];
+		var startPoint = 0;
+		var imagePoint = ["0px 0px", "-374px 0px "," -746px 0px ","-1118px 0px",
+						  "0px -242px","-374px -242px "," -746px -242px ","-1118px -242px",
+						  "0px -484px","-374px -484px "," -746px -484px ","-1118px -484px"];
+		var state = "stop";
+		var speed = [0,50,100,150,200,250,300,350];
+			speed.currentLevel = 0;
+		var time;
+
+		return {
+			start : function(){
+				time = setInterval(HorseMotion.motion,speed[speed.currentLevel]);
+			},
+
+			stop : function(){
+				if(time){
+					clearInterval(time);
+				}
+			},
+			
+			setSpeed : function(level){
+				level = level%8;
+				speed.currentLevel = level;
+			},
+
+			motion : function(){
+				box.style.backgroundPosition = imagePoint[startPoint];
+				startPoint = ++startPoint%11;
+			},
+
+			init : function(){
+				box.onclick = function(){
+					switch(state){
+						case "start" : HorseMotion.stop(); state = "stop" ;break;
+						case "stop" : HorseMotion.start(); state = "start"; break;
+						default : break;
+					}
+				}
+			}
+		}
+	})();
+
+	HorseMotion.init();
+	HorseMotion.setSpeed(3);
+</script>
+</html>

@@ -1,0 +1,59 @@
+﻿	.fmes-btn { 
+		background-image: -moz-linear-gradient(center top , #FFFFFF, #F9F9F9 48%, #E2E2E2 52%, #E7E7E7);
+		border: 1px solid #D1D1D1;
+		border-radius: 3px;
+		vertical-align: middle;
+		position:relative;
+		padding : 3px;
+		float:left;
+		cursor: pointer;
+		display: inline-block;
+		zoom:1;
+		*display: inline;      
+		margin-left:10px;
+	}
+	
+	.fmes-btn button {
+		border: 0px none;
+		background: none;
+		outline : 0;
+		cursor: pointer;
+	}
+
+	.fmes-btn button::-moz-focus-inner{border-color:transparent!important;}
+
+	.fmes-btn-hover{ 
+		background: #B6CBE4;
+	}
+	
+	.fmes-btn-pressed {
+		background: #95C3F5;
+	}
+
+	.fmes-btn-text {
+		height : 32px;
+		line-height: 32px;
+		font-size : 12px;
+		font-family : tahoma,arial,verdana,sans-serif;
+		text-align: center;
+		white-space : no-wrap;
+		width : auto;
+		padding-left : 28px;
+	}
+
+	.fmes-btn-icon {
+		width: 24px;
+		height : 32px;
+		background-image: url(../images/add.gif) ;
+		background-repeat : no-repeat;
+		background-position : right center;
+		display : inline-block;
+		position: absolute;
+		top : 0px;
+		left : 0px;
+		bottom : 0px;
+		padding : 0px;
+		margin: 4px;
+		margin-left: 10px;
+
+	}

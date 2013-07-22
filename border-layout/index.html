@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <HEAD>
+  <TITLE> New Document </TITLE> 
+  <style>
+	html , body{
+		margin:0px;
+		padding:0px;
+		*overflow:auto;
+	}
+
+	#container {position:relative;}
+
+	.fmes-borderLayout-region {
+		position:absolute;
+		
+	}
+
+	.fmes-north , .fmes-south , .fmes-west , .fmes-east , .fmes-center{
+		background: black;
+		color: white;
+		overflow: hidden;
+	}
+
+	.fmes-splitBar {
+		background:red;
+		position: absolute;
+	}
+
+	.fmes-north-splitBar , .fmes-south-splitBar{
+		cursor : n-resize; 
+	}
+
+	.fmes-west-splitBar , .fmes-east-splitBar{
+		cursor : w-resize; 
+	}
+	
+
+  </style>
+ </HEAD>
+
+ <BODY>
+
+	<div id="container">
+		<div class="fmes-borderLayout-region fmes-north"><p style="font-size:20px;">north ddd呵呵</p></div>
+		<div class="fmes-borderLayout-region fmes-splitBar fmes-north-splitBar">n</div>
+
+		<div class="fmes-borderLayout-region fmes-south">south</div>
+		<div class="fmes-borderLayout-region fmes-splitBar fmes-south-splitBar">s</div>
+
+		<div class="fmes-borderLayout-region fmes-center">center</div>
+
+		<div class="fmes-borderLayout-region fmes-west">west</div>
+		<div class="fmes-borderLayout-region fmes-splitBar fmes-west-splitBar">w</div>
+
+		<div class="fmes-borderLayout-region fmes-east">east</div>
+		<div class="fmes-borderLayout-region fmes-splitBar fmes-east-splitBar">e</div>
+	</div>
+ <script type="text/javascript" src="fmes.js"></script>
+ <script>
+	document.body.test = 0;
+	var config = {
+		north : { HEIGHT : "100px" },
+		south : { HEIGHT : "40px" },
+		west : { WIDTH : "200px" },
+		east : { WIDTH : "200px" },
+		margin : "10px"
+	}
+
+	var viewport =  fmes.$('#container');
+	var region = {
+		north : fmes.$('.fmes-north'),
+		south : fmes.$('.fmes-south'), 
+		center : fmes.$('.fmes-center'),
+		west : fmes.$('.fmes-west'),
+		east : fmes.$('.fmes-east')
+	}
+	
+	var splitBarSize = "10px";
+	region.north.splitBar = fmes.$('.fmes-north-splitBar');
+	region.south.splitBar = fmes.$('.fmes-south-splitBar');
+	region.west.splitBar = fmes.$('.fmes-west-splitBar');
+	region.east.splitBar = fmes.$('.fmes-east-splitBar');
+	
+	function adjustment(){
+
+		//size part
+		var viewSize = fmes.$.getViewportSize(),// {width : "600px", height:"600px"},
+			wceHeight = parseInt(viewSize.height) - parseInt(config.north.HEIGHT) - parseInt(config.south.HEIGHT) - 2*parseInt(config.margin),
+			centerWidth = parseInt(viewSize.width) - parseInt(config.west.WIDTH) - parseInt(config.east.WIDTH) - 2*parseInt(config.margin);
+
+			// 小于0的处理方法
+			wceHeight = wceHeight < 0 ? 0 : wceHeight;
+			centerWidth = centerWidth < 0 ? 0 : centerWidth;
+
+			viewport.width(viewSize.width).height(viewSize.height).css("background","#EEEEEE");
+
+			region.north.width( viewSize.width ).height( config.north.HEIGHT );
+			region.north.splitBar.width( viewSize.width ).height( splitBarSize );
+
+			region.south.width( viewSize.width ).height( config.south.HEIGHT );
+			region.south.splitBar.width( viewSize.width ).height( splitBarSize );
+
+			region.west.width( config.west.WIDTH ).height( wceHeight );
+			region.west.splitBar.width( splitBarSize ).height( wceHeight );
+
+			region.east.width( config.east.WIDTH ).height( wceHeight );
+			region.east.splitBar.width( splitBarSize ).height( wceHeight );
+
+			region.center.width( centerWidth ).height( wceHeight );
+			
+			//position part
+			wceTop = parseInt(config.north.HEIGHT) + parseInt(config.margin) + 'px';
+			centerLeft = parseInt(config.west.WIDTH) + parseInt(config.margin) + 'px';
+			region.north.css({ top : "0px" , left : "0px" });
+			region.south.css({ bottom : "0px" , left : "0px" });
+			region.west.css({ top : wceTop , left : "0px" });
+			region.center.css({ top : wceTop , left : centerLeft });
+			region.east.css({ top : wceTop , right : "0px" });
+
+			region.north.splitBar.css({ top : config.north.HEIGHT , left : "0px" });
+			region.south.splitBar.css({ bottom : config.south.HEIGHT , left : "0px" });
+			region.west.splitBar.css({ top : wceTop , left : config.west.WIDTH });
+			region.east.splitBar.css({ top : wceTop , right : config.east.WIDTH });
+	}
+
+	fmes.$(window).addListener('resize' , adjustment);
+
+	adjustment();
+
+	region.north.splitBar.addListener('click' , function(){
+		if( region.north.height() - 0 == 0){
+			region.north.height("300px")
+		}else{
+			region.north.css({
+				"height" : "0px",
+				"overflow": "hidden"
+			
+			});
+		}
+	});
+alert( 0.2 == "20"/100);
+ </script>
+ </BODY>
+</HTML>

@@ -1,0 +1,105 @@
+<html>
+<head>
+
+<style>
+
+
+</style>
+</head>
+
+<body>
+
+</body>
+	
+<script language="javascript">
+var language ;
+if(navigator.language){
+	language = navigator.language;
+}else if(navigator.browserLanguage){
+	language = navigator.browserLanguage;
+}
+language = language.toLowerCase(language);
+
+var i18n = {
+	greeting : {
+		"zh-cn" : "您 好 ：",
+		"en-us" : "hello :"
+	}
+};
+
+document.write(i18n.greeting[language]);
+
+Boolean.prototype.valueOf = function(){
+	alert("do valueOf")
+	return this;
+}
+
+Boolean.prototype.toString = function(){
+	alert("do toString")
+	return "123";
+}
+
+var a = new Boolean(true);
+alert(a)
+alert(a + " word");
+
+/*
+Array.prototype.toString = function(){
+	var result = [];
+	for(var i = 0 ; i < this.length ; i++){
+		if(typeof this[i] == 'object'){
+			result.push(this[i].toString());
+		}else{
+			result.push(this[i]);
+		}
+	}
+	result = '[' + result.join(", ") + ']';
+	return result;
+}
+*/
+
+
+var arrayList = [1,2,3,[4 , 5],false];
+
+var _toString = Object.prototype.toString;
+Object.prototype.toString = function(){
+	alert("invoke toString");
+	return _toString.call(this);
+}
+
+var _valueOf = Object.prototype.valueOf;
+Object.prototype.valueOf = function(){
+	alert("invoke valueOf");
+	return _valueOf.call(this);
+}
+
+alert(typeof Object.prototype.valueOf())
+alert(uneval(arrayList))
+
+
+
+ /**
+ * 高级示例：设计通用的替换器① 
+ * 可应用于模板系统中
+ */
+function Replacer( obj) {
+//这个示例来自于jslib 项目的一个tips 库。
+	var n, rx = [];
+	for (n in obj){
+		rx.push(n);
+	}
+	rx = new RegExp(rx.join('|'), 'g');
+
+	return function(s) {
+		return s.replace(rx, function($0) {
+			return ($0 in obj ? obj[$0] : $0)
+		});
+	}
+}
+
+var string = "sdffsdfsdfsdfxxx\\nxxxxxxx";
+var myReplace = Replacer({ '\n' : '<br/>' });
+alert(myReplace(string))
+
+</script>
+</html>

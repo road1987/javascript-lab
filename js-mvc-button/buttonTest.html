@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <HEAD>
+  <TITLE> New Document </TITLE>
+  <META NAME="Generator" CONTENT="EditPlus">
+  <META NAME="Author" CONTENT="">
+  <META NAME="Keywords" CONTENT="">
+  <META NAME="Description" CONTENT="">
+   <script type="text/javascript" src="Button.js"></script>
+   <link rel="stylesheet" type="text/css" href="themes/button.css" />
+ </HEAD>
+
+ <BODY>
+ <script>
+	var button = new Button('new Button');
+	document.body.appendChild(button.ui.element);
+	var button1 = new Button('reset');
+	document.body.appendChild(button1.ui.element);
+	
+
+	button.addListener(MouseEvent.MOUSE_OVER , function(){
+		//document.body.style.background = '#EEEEEE';
+	});
+	button.addListener(MouseEvent.MOUSE_OUT , function(){
+		button1.fireEvent('mouseOut');
+	});
+
+	button1.addListener(MouseEvent.MOUSE_OUT , function(event){
+		//var button2 = new Button('newButton');
+		//document.body.appendChild(button2.ui.element);
+	});
+
+	button.addListener( MouseEvent.CLICK , function(event){
+		//button.setLabel('cccccccc');
+		var button2 = new Button('&nbsp;下一步');
+		document.body.appendChild(button2.ui.element);
+	});
+ </script>
+ </BODY>
+</HTML>
