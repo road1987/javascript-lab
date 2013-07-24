@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<title>spider</title>
+<style type="text/css">
+	*{
+		1margin : 0px;
+		1padding : 0px;	
+	}
+	.ipt-datagrid {
+		position : relative;
+		font-size : 12px; 
+		border : 1px solid #AAAAAA;
+		width : 100%;
+		height : 100%;
+	}
+	
+	.ipt-datagrid-header {
+		width : 100%;
+		line-height : 20px;		
+		overflow : hidden;
+	}
+	
+	.ipt-datagrid-header table{
+		border-collapse : collapse;
+		width : 100%;
+	}
+	
+	.ipt-datagrid-header th{
+		background : #CCCCCC;
+		font-size : 13px;
+		height : 30px;
+	}	
+	
+	.ipt-datagrid-body{
+		width : 100%;
+		height : 100%;
+		line-height : 20px;
+		overflow : auto;
+	}
+	
+	.ipt-datagrid-body table{
+		border-collapse : collapse;
+		1width : 100%;	
+	}
+	
+	.ipt-datagrid-body td{
+		text-align : center;
+		overflow : hidden;
+	}	
+		
+	.ipt-datagrid-footer {
+		width : 100%;
+		position : absolute;
+		left : 0px;
+		bottom : 0px;
+		border-top : 1px solid #DDDDDD;
+	}
+	
+	.ipt-paging {
+		padding: 4px;   text-align: left ; font-size : 13px;
+	}
+
+	.ipt-paging td {
+		vertical-align:middle;
+		text-align:center;
+		
+	}
+	
+	.ipt-paging a {
+		text-decoration: none; 
+		border:1px solid white;
+		width : 24px;
+		height : 24px;
+		display : inline-block;
+		background-position : 4px 4px ;
+	}
+	
+	.ipt-paging a:hover {
+		border : 1px solid gray;	
+	}
+	
+	.ipt-paging a.paging-first{
+		background: url("images/paging_first.gif") no-repeat 4px 4px;
+	}
+	
+	.ipt-paging a.paging-prev{
+		background : url("images/paging_prev.gif") no-repeat 4px 4px;		
+	}
+	
+	.ipt-paging a.paging-next{
+		background : url("images/paging_next.gif") no-repeat 4px 4px;		
+	}
+	
+	.ipt-paging a.paging-last{
+		background : url("images/paging_last.gif") no-repeat 4px 4px;		
+	}
+	
+	tr.gray {
+		background: #EEEEEE;	
+	}
+	
+	tr.white {
+		background: white;	
+	}
+	
+	tr.hover {
+		background: yellow;	
+	}
+	
+	tr.selected {
+		background : black;
+		color : white;	
+	}
+</style>
+</head>
+
+<body>
+<div id="datagrid" style="width : 1800px; height : 300px;"></div>
+<script>
+	/*
+		data :  
+		json 
+		{
+			datagrid : {
+				//配置
+				total : 100,
+				sortAble : true,
+				sortField ; 
+			},
+			
+			data : [
+					{field: name , field : name , field : name , field : name},
+					{field: name , field : name , field : name , field : name},
+					{field: name , field : name , field : name , field : name}
+			]
+		}
+	*/
+	
+	/**
+	*		
+	*
+	*/
+	var DataGrid = function(options){
+			var options = options || {};
+			this.xmlURL = null;
+			this.jsonURL = null;
+			this.selectedRows = [];
+			
+			this._ui = this._createUI();
+			
+			this._paging = new Paging({
+					pageIndex : options.pageIndex ,
+					pageSize : options.pageSize,
+					onPageChange : options.onPageChange || function(){},
+					onPageSizeChange : options.onPageSizeChange || function(){}
+			});
+			this.style = {
+				rowCls : options.rowCls || ["gray","white"]  ,
+				rowHoverCls : options.rowHoverCls || "",
+				rowSelectedCls : options.rowSelectedCls || ""
+			};
+			
+			this.pContainer = options.renderTo;
+			this._init();
+	}
+	
+	DataGrid.prototype = {
+		_init : function(){
+			//compose ui 
+			this._paging.renderTo(this.getFooterContainer());
+			if(this.pContainer){
+					this.renderTo(this.pContainer);
+			}
+			this._bindEvent();
+		},
+		
+		getPaging : function(){
+			return this._paging;
+		},
+		
+		renderTo : function(selector/*dom*/){
+			$(this._ui).appendTo($(selector).get(0));
+			this._adjustSize();
+		},
+		
+		setXMLData : function(xml){
+			
+		},
+		
+		getXMLData : function(){
+			
+		},
+		
+		buildGridHeader : function(columnArrays){
+			var headerHTML = ["<table><tr>"];
+			for(var i = 0 ; i < columnArrays.length ; i ++){	
+				headerHTML.push("<th>" + columnArrays[i] + "</th>");
+			}
+			headerHTML.push("</tr></table>");
+			headerHTML = headerHTML.join("");
+			$(this.getHeaderContainer()).html(headerHTML);
+			return true;
+		},		
+		
+		addSelectedRow : function(row){
+			var style = this.style;
+			$(row).addClass(style.rowSelectedCls);
+			if($.inArray(row , this.selectedRows) == -1){
+				this.selectedRows.push(row);
+				return true;	
+			}
+			return false;
+		},
+		
+		removeSelectedRow : function(row){
+			var style = this.style;
+			$(row).removeClass(style.rowSelectedCls);
+			var index = $.inArray(row , this.selectedRows);
+			if( index !== -1){
+				this.selectedRows.splice(index , 1);
+				return true;	
+			}
+			return false;
+		},
+		
+		setJSONData : function(json){
+			var resultHTML = ["<table>"];
+			for(var i = 0 ; i < json.rows.length ; i ++){
+				var config = json.config;
+				var rowData = json.rows[i];
+				var headerColumns = [];
+				
+				if(i === 0){
+					for(var j in rowData){
+						headerColumns.push(j);	
+					}
+					this.buildGridHeader(headerColumns);
+				}
+				
+				if(this.style.rowCls && this.style.rowCls.length > 0){
+					resultHTML.push('<tr class="'+ this.style.rowCls[i%this.style.rowCls.length] + '">');
+				}else{
+					resultHTML.push('<tr>');						
+				}
+				for(var k in rowData){
+					resultHTML.push('<td>' + rowData[k] + '</td>');
+				}
+				resultHTML.push('</tr>');
+			}
+			resultHTML.push('</table></div></tbody></table>');
+			resultHTML = resultHTML.join("");
+			$(this.getBodyContainer()).html(resultHTML);
+			
+			this._adjustSize();
+			return true;
+		},
+		
+		getJSONData : function(){
+			
+		},
+		
+		setXMLUrl : function(url){
+			
+		},
+		
+		setJSONUrl : function(url){
+			
+		},
+		
+		getHeaderContainer : function(){
+			return $(this._ui).find(".ipt-datagrid-header").get(0);			
+		},
+		
+		getBodyContainer : function(){
+			return $(this._ui).find(".ipt-datagrid-body").get(0);
+		},
+		
+		getFooterContainer : function(){
+			return $(this._ui).find(".ipt-datagrid-footer").get(0);
+		},
+		
+		_bindEvent : function(){
+				var _this = this , style = this.style;
+				$(this.getBodyContainer()).delegate("tr" , "mouseover" , function(){
+						$(this).addClass(style.rowHoverCls);
+				});
+				$(this.getBodyContainer()).delegate("tr" , "mouseout" , function(){
+						$(this).removeClass(style.rowHoverCls);
+				});	
+				$(this.getBodyContainer()).delegate("tr" , "click" , function(){
+						
+						if($.inArray(this , _this.selectedRows) == -1){
+								_this.addSelectedRow(this);
+						}else{
+								_this.removeSelectedRow(this);
+						}
+				});
+				
+		},
+		
+		
+		_setDataContainerHeight : function(height){
+			$(this.getBodyContainer()).height(height);
+			return true;
+		},
+		
+		
+		_adjustSize : function(){
+				var columnSize = [],
+						headerColumns = $(this.getHeaderContainer()).find("th"),
+						dataRows = $(this.getBodyContainer()).find("tr");
+				
+				for(var i = 0 ; i < headerColumns.length ; i ++){
+					var size = $(headerColumns[i]).innerWidth();
+					columnSize.push(size);
+				}
+				
+				for(var j = 0 ; j < dataRows.length ; j ++){
+						var cells = $(dataRows[j]).find("td");
+						for( var k = 0 ; k < cells.length ; k ++){
+							$(cells[k]).width( columnSize[k] + "px" );
+						}
+				}
+
+				var gridHeight = $(this._ui).height() , headerHeight = $(this.getHeaderContainer()).height(), footerHeight = $(this.getFooterContainer()).height();
+				this._setDataContainerHeight( gridHeight - headerHeight - footerHeight );
+				return true;
+		},
+		
+		_createUI : function(){
+			var ui = document.createElement("div");
+	
+			$(ui).addClass("ipt-datagrid");		
+			$(ui).html(   '<div class="ipt-datagrid-header"></div>' + 
+										'<div class="ipt-datagrid-body"></div>' + 
+										'<div class="ipt-datagrid-footer"></div>');
+			return ui;
+		}
+	}
+
+
+
+/**
+*	分页类
+*/
+	var Paging = function(options){
+			options = options || {};
+			this._ui = this._createUI(); 
+			
+			this.pageIndex = null;
+			this.pageSize = options.pageSize || 10;
+			this.pageNums = options.pageNums || 100;
+			this.recordNums = options.recordNums || 30;
+			this.onPageChange = options.onPageChange || function(){} ;
+			this.onPageSizeChange = options.onPageSizeChange || function(){} ;
+			
+			if(typeof options.pageIndex === "number"){
+					this.setPageIndex(options.pageIndex);
+			}else{
+					this.setPageIndex(1);	
+			}
+			this._init();
+	}
+	
+	Paging.prototype = {
+		
+		_init : function(){
+			this._bindEvent();	
+		},
+		
+		setPageIndex : function(number){
+			if(this.pageIndex != number && number > 0 && number <= this.pageNums){
+				this.pageIndex = number;
+				$(this._ui).find(".pageIndexBox").val(this.pageIndex);
+				this.onPageChange(this);
+				
+				return true;
+			}else{
+				return false;
+			}
+		},
+		
+		getPageIndex : function(){
+			return this.pageIndex ;
+		},
+		
+		
+		setRecordNums : function(recordNums){
+			this.recordNums = recordNums;
+			$(this._ui).find(".recordNums").html(recordNums);
+			return true;
+		},
+		
+		getRecordNums : function(){
+			return this.recordNums;
+		},
+		
+		setPageNums : function(pageNums){
+			this.pageNums = pageNums;
+			$(this._ui).find(".pageNums").html(pageNums);
+			return true;			
+		},
+		
+		getPageNums : function(){
+			return this.pageNums;
+		},
+		
+		setPageSize : function(size){
+			if(!(typeof (size - 0) == "number")){
+				return false;
+			}
+			
+			if(this.pageSize != size ){
+				this.pageSize = size;
+				this.onPageSizeChange(this);
+			}
+			return true;
+		},
+		
+		getPageSize : function(){
+			return this.pageSize;
+		},
+		
+		renderTo : function(selector/*dom*/){
+			$(this._ui).appendTo($(selector).get(0));
+		
+		},
+		
+		_adjustUI : function(){
+			
+		},
+		
+		_bindEvent : function(){
+			var _this = this;
+			$(this._ui).delegate("a" , "click" , function(){
+					var command = this.className;
+					switch(command){
+						case "paging-first":
+							_this.setPageIndex(1);
+							break; 
+						case "paging-prev":
+							_this.setPageIndex( _this.pageIndex - 1 );
+							break;
+						case "paging-next": 
+							_this.setPageIndex( _this.pageIndex + 1 );
+							break;
+						case "paging-last": 
+							_this.setPageIndex(_this.pageNums);
+							break;
+						default : 
+							break;
+					}
+			});
+			
+			$(this._ui).find(".pageSizeBox").bind("change" , function(){
+					_this.setPageSize(this.value)
+				}
+			);
+		},	
+		
+		_createUI : function(){
+			var ui = document.createElement("div");
+			$(ui).addClass("ipt-paging");			
+			$(ui).html(
+					'<table>' + 
+						'<tr><td><select class="pageSizeBox"><option>10</option><option>20</option><option>30</option><option>40</option><option>50</option></select></td>' + 
+			 		'<td><a href="javascript:void(0)" class="paging-first" ></a></td>' + 
+			 		'<td><a href="javascript:void(0)" class="paging-prev"></a></td>' +  
+			 		'<td><span>Page</span></td>' +
+			 		'<td><input size="2" class="pageIndexBox"/></td>' +	
+			 		'<td><span>of  </span><span class="pageNums"></span></td>'	+ 		
+			 	  '<td><a href="javascript:void(0)" class="paging-next"></a></td>'+
+			 		'<td><a href="javascript:void(0)" class="paging-last"></a></td></tr>'+
+			 		'</table>'
+			);
+			return ui;
+		}
+	}
+	
+/*	
+	var paging = new Paging();
+	paging.renderTo(document.body);
+	
+	*/
+	var dg = new DataGrid({
+			rowHoverCls : "hover",
+			rowSelectedCls : "selected",
+			pageSize : 5,
+			pageIndex : 2,
+			renderTo : "#datagrid",
+			onPageChange : function(pagingObj){
+					var pageIndex = pagingObj.getPageIndex();
+					var pageSize = pagingObj.getPageSize();
+   				$.ajax({
+   				   type: "GET",
+   				   url: "http://192.168.1.100:8080/insect/service/test?actid=1133",
+   				   data : "page-index=" + pageIndex + "&page-size=" + pageSize,
+   				   dataType : "xml",
+   				   success: function(xml){
+   				  		var jsonData = DataParse.serviceXML2IptDataGridJson(xml);
+   				  		dg.setJSONData(jsonData);
+   				  		pagingObj.setPageNums(jsonData.pageNums);
+   				   }
+   				})
+			},
+			onPageSizeChange : function(pagingObj){
+					var pageSize = pagingObj.getPageSize();
+					var pageIndex = 1;
+							pagingObj.setPageIndex(pageIndex);
+   				$.ajax({
+   				   type: "GET",
+   				   url: "http://192.168.1.100:8080/insect/service/test?actid=1133",
+   				   data : "page-index=" + pageIndex + "&page-size=" + pageSize,
+   				   dataType : "xml",
+   				   success: function(xml){
+   				  		var jsonData = DataParse.serviceXML2IptDataGridJson(xml);
+   				  		dg.setJSONData(jsonData);
+   				  		pagingObj.setPageNums(jsonData.pageNums);
+   				   }
+   				})
+			}
+		});
+	
+	var DataParse = {
+		serviceXML2IptDataGridJson : function(xml){
+			var jsonData = null;
+			var metadata = $(xml).find("metadata").get(0);
+			var data =  $(xml).find("data").get(0);
+			jsonData = {
+				recordNums : $(metadata).find("record-number").get(0).childNodes[0].nodeValue,
+				pageIndex : $(metadata).find("page-index").get(0).childNodes[0].nodeValue,
+				pageSize :  $(metadata).find("page-size").get(0).childNodes[0].nodeValue,
+				pageNums : $(metadata).find("page-number").get(0).childNodes[0].nodeValue,
+				rows : []
+			};
+			
+			var rows = $(data).children();
+			for(var i = 0 ; i < rows.length ; i++){
+				var jsonRow = {} , cells = $(rows[i]).children();
+				for(var j = 0 ; j < cells.length ; j++){
+					var name = cells[j].nodeName , value = cells[j].childNodes[0].nodeValue;
+					jsonRow[name] = value;
+				}
+				jsonData.rows.push(jsonRow);
+			}
+			return jsonData;
+		}
+}
+
+
+
+
+
+
+
+//	dg.getPaging().setPageIndex(3);
+
+	dg.setJSONData({
+		columns : [],
+		rows : [
+			{id : "7" , name:"xiaoming" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "6" , name:"xiaoli" , age:"19" , school:"民航小学" , grade : "5"},		
+			{id : "5" , name:"xianwang" , age:"10" ,school:"民航小学" , grade : "5"},
+			{id : "4" , name:"xiaohang" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "3" , name:"xiaohaung" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "2" , name:"xiaoniao" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "5" , name:"xianwang" , age:"10" ,school:"民航小学" , grade : "5"},
+			{id : "4" , name:"xiaohang" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "3" , name:"xiaohaung" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "5" , name:"xianwang" , age:"10" ,school:"民航小学" , grade : "5"},
+			{id : "4" , name:"xiaohang" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "3" , name:"xiaohaung" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "2" , name:"xiaoniao" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "5" , name:"xianwang" , age:"10" ,school:"民航小学" , grade : "5"},
+			{id : "4" , name:"xiaohang" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "3" , name:"xiaohaung" , age:"18" , school:"民航小学" , grade : "5"},
+			{id : "2" , name:"xiaoniao" , age:"18" , school:"民航小学" , grade : "5"}
+		]
+	});
+	
+</script>
+</body>
+</html>

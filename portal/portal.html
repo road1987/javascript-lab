@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+<script src="jquery-1.7.2.min.js"></script>
+<script src="dragAble.js"></script>
+<style>
+	*{
+		margin : 0px; 
+		padding : 0px;	
+	}
+		.column {
+			float : left;	
+			border:1px solid blue;
+			height : 200px;
+		}
+		
+	.portal{
+		width : 980px;
+		margin : 0px auto;
+		border : 1px solid green;
+	}
+	
+	.column1 {
+		width : 340px;
+	}
+	
+	.column2 {
+		width : 340px;
+		margin-left : 10px;
+	}
+	
+	.column3 {
+		width : 260px;
+		margin-left : 10px;
+	}
+	
+	h1 {
+		font-size : 12px;
+		height : 20px;
+		line-height:20px;
+		background:black;
+		color : white;
+		cursor : move;
+			
+	}
+	
+	.module {
+		border : 1px solid black;	
+		margin-bottom : 10px;
+		background: white;
+	}
+</style>
+</head>
+
+<body>
+	<div class="portal">
+ 		<div class="column column1">
+ 			<div class="module">
+ 				<h1>title</h1>	
+ 				<div>sdfasdfasdf</div>
+ 			</div>
+ 		</div>
+ 		<div class="column column2">
+ 			<div class="module">
+ 				<h1>title</h1>	
+ 				<div>ddddddddddd<br/>sdfasdfasdfads</div>
+ 			</div> 		
+ 		</div> 
+  	<div class="column column3">
+ 			<div class="module">
+ 				<h1>title</h1>	
+ 				<div></div>
+ 			</div>  		
+ 			<div class="module">
+ 				<h1>title</h1>	
+ 				<div>ssssssssssssss</div>
+ 			</div>  
+  	 			<div class="module">
+ 				<h1>title</h1>	
+ 				<div>ssssssssssssss</div>
+ 			</div>  
+			 			<div class="module">
+ 				<h1>title</h1>	
+ 				<div>ssssssssssssss</div>
+ 			</div>  
+			 			<div class="module">
+ 				<h1>title</h1>	
+ 				<div>ssssssssssssss</div>
+ 			</div>  
+		<div class="module">
+ 				<h1>titlesss</h1>	
+ 				<div>aaaaaaaaaaaaaaaa</div>
+ 		</div>  		
+  	</div>
+ 	</div>
+	
+	<script>
+		$(".module").each(function(){
+			var _this = this;
+			var mark = document.createElement("div");
+			dragAble(this , {
+				"dragStart" : function(){
+					_this.mark = mark;
+					$(_this.mark).css({
+						"width" : "100%",
+						"height" : $(_this).height(),
+						"border" : "2px dotted black",
+						"margin-bottom" :  $(_this).css("margin-bottom")
+					});
+					$(_this.mark).insertBefore(_this);
+				},
+				
+				"draging" : function(){
+					//当前拖动模块位置
+					var curModulePos = {
+						x : getPositionInDocument(_this).x ,
+						y : getPositionInDocument(_this).y
+					}
+					
+					var mostClosingModule = null;
+					
+					$(".portal .column").each(function(){
+						var columnPos = getPositionInDocument(this);
+						if(curModulePos.x > columnPos.x && curModulePos.x < columnPos.x + $(this).width()){
+							var childModules = $(this).find(".module");
+							if(childModules.length > 0 ){
+								if(childModules.length == 1 && childModules[0] == _this){
+									$(_this.mark).appendTo(this);
+									return ;
+								}
+								$(childModules).each(function(){
+									if(_this === this){
+										return ;
+									}
+									var position = getPositionInDocument(this);
+									var distance = {
+										x : curModulePos.x - position.x ,
+										y : curModulePos.y - position.y 
+									}
+									distance = Math.pow(distance.x,2) + Math.pow(distance.y,2);
+									if(mostClosingModule){
+										if(mostClosingModule.distance > distance){
+											mostClosingModule = this;
+											mostClosingModule.distance = distance;
+										}
+									}else{
+										mostClosingModule = this;
+										mostClosingModule.distance = distance;
+									}
+								});
+								
+								if(curModulePos.y > getPositionInDocument(mostClosingModule).y + $(mostClosingModule).height()/2){
+									$(_this.mark).insertAfter(mostClosingModule);
+								}else{
+									$(_this.mark).insertBefore(mostClosingModule);
+								}
+							}else{
+								$(_this.mark).appendTo(this);
+							}
+						}
+					});
+				},
+				
+				"dragStop" : function(){
+					if(_this.mark){
+						$(_this).insertAfter(_this.mark);
+						$(_this.mark).remove();
+						_this.mark = null;//for ie bad operate bug.
+					}
+				}
+			});
+		});
+		
+		
+		
+		var Protalet 
+	</script>
+</body>
+</html>
