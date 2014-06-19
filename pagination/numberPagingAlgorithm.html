@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title> New Document </title>
+  <meta name="Generator" content="EditPlus"/>
+  <meta name="Author" content=""/>
+  <meta name="Keywords" content=""/>
+  <meta name="Description" content=""/>
+  <script src="fmes.js"></script>
+ </head>
+
+ <body>
+	 <p><label>(totalPage)总页数:</label><input id="totalpage"/><p>
+	 
+	 <p><label>(linkNumbs)显示分页链接数:</label><input id="linknumbs"/><p>
+	 
+	 <p><label>(currentPage)当前页:</label><input id="currentpage"/><p>
+	 <p> <input type="submit" id="generate" value="生成页码 " /><p>
+	 
+	 <br/>
+	 
+ 	 <p>(result)结果:<span id="result">    </span></p>
+ 
+ </body>
+ <script>
+	
+	function getShowPageNums( config ){
+		var currentPage = config.currentPage;
+		var totalPage = config.totalPage;
+		var linkNumbs = config.linkNumbs; // 显示分页链接数
+		
+		
+		var showPage = [];
+		var startPage = 1;
+		if( totalPage <= linkNumbs ){
+			startPage = 1 ;
+		}else{
+			if( currentPage < Math.floor( linkNumbs / 2 ) + 1 ) {
+				startPage = 1 ;
+			}else{
+				startPage = currentPage - Math.floor( linkNumbs / 2 );
+				while(true){
+					if( startPage + ( linkNumbs -1 ) <= totalPage  ){
+						break;	
+					}else{
+						startPage--;	
+					}
+				}
+			}
+		}
+		for(var i = 0 ; i < linkNumbs ; i++){
+			if( startPage + i > totalPage ){
+				break;
+			}
+			showPage.push( startPage + i );
+		}
+		return showPage;
+	}
+	
+	
+	
+	document.getElementById("generate").onclick = function(){
+		var currentPage = parseInt( document.getElementById("currentpage").value );
+		var totalPage = parseInt( document.getElementById("totalpage").value );
+		var linkNumbs = parseInt( document.getElementById("linknumbs").value);
+		
+		var showPage = getShowPageNums({ 
+			currentPage :  currentPage,
+			totalPage : totalPage,
+			linkNumbs : linkNumbs // 显示分页链接数 
+		});
+		
+		document.getElementById("result").innerHTML = showPage.toString();
+		return false;
+	}
+	
+ </script>
+</html>
