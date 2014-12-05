@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+ <head>
+  <title> perLoader demo  </title>
+  <link rel="stylesheet" type="text/css" href="preLoader.css" /> 
+ </head>
+ <body>
+           <div class="preLoaderOverlayer">
+              <div class="preLoaderOverlayer-content">
+                <h1 style="color: white; font-weight: bold;">以林为业&nbsp;&nbsp;&nbsp;&nbsp;以警为荣</h1>
+                <div style="color: white;">云岭森警欢迎您</div>
+                <div class="loading"><img src="images/loading.gif" /></div>
+                <div style="color: white; font-size: 12px;">站点载入中......<span class="loadPercent"></span></div>
+              </div>
+           </div>
+ 	<img src="http://news.xinhuanet.com/photo/2014-07/12/126743517_14051336093521n.jpg"/>
+ 	<img src="http://news.xinhuanet.com/photo/2014-07/12/126743517_14051336093941n.jpg"/>
+ 	<img src="http://www.sinaimg.cn/dy/slidenews/61_img/2014_01/40602_898343_664047.jpg"/>
+ 	<img src="http://www.sinaimg.cn/dy/slidenews/61_img/2014_01/40602_898344_748184.jpg"/>
+ 	<img src="http://www.sinaimg.cn/dy/slidenews/61_img/2014_01/40602_898345_989161.jpg"/>
+ 	<img src="http://www.sinaimg.cn/dy/slidenews/61_img/2014_01/40602_898346_839798.jpg"/> 	
+ 	<img src="http://www.sinaimg.cn/dy/slidenews/61_img/2014_01/40602_898347_854812.jpg"/> 	
+ 	<img src="http://www.sinaimg.cn/dy/slidenews/61_img/2014_01/40602_898348_591463.jpg"/>
+	 <script src="jquery-1.10.2.js" type="text/javascript"></script>
+     <script src="preLoader.js" type="text/javascript"></script>
+	 <script type="text/javascript">
+	 	var preloader = $(document.body).preLoader({
+	 		onBeforeLoad : function(){
+	 			console.log('beforeLoad:' + this.getLoadedPercent());
+	 		},
+	 		onLoadChange : function(){
+	 			console.log('loadChange:' + this.getLoadedPercent());
+	 			$(".loadPercent").html(this.getLoadedPercent() + "%");
+	 		},
+	 		onComplete : function(){
+	 			console.log('complete:' + this.getLoadedPercent());
+	 			this.removeOverLayer();
+	 		},
+			loadOnce : false,
+			autoClose : false
+	 	});
+	 	
+	 	$(document.body).click(function(){
+	 		preloader.removeOverLayer();
+	 	});
+	 </script>
+ </body>
+</html>

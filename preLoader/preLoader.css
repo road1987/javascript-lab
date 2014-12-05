@@ -1,0 +1,35 @@
+.preLoaderOverlayer {
+    position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+    z-index: 9999999;
+    
+	background-color: #8AC8FF;/*/ #0893CC ;/* #1C558B*/
+    background: -moz-linear-gradient(top, #0893CC 0%, #1C558B 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8AC8FF), color-stop(100%,#1C558B)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #8AC8FF 0%,#1C558B 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #8AC8FF 0%,#1C558B 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, #8AC8FF 0%,#1C558B 100%); /* IE10+ */
+	background: linear-gradient(top, #8AC8FF 0%,#1C558B 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8AC8FF', endColorstr='#1C558B',GradientType=0 ); /* IE6-9 */
+    1background-image: url("images/background-1.png");
+}
+
+.preLoaderOverlayer-content {
+    position: relative;
+    top: 50%;
+    width: 600px;
+    margin: 0px auto;
+    text-align: center;
+    margin-top: -150px;
+}
+
+.loading {
+    display: block;
+    margin: 20px auto;
+    width: 100px;
+    height: 100px;
+    1background-image: url("images/loading.gif");
+}
