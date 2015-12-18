@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>member-club</title>
+  </head>
+  <body>
+    <div class="js_container">
+      <form action="#" method="get">
+      <select class="js_province" name="province" 1data-value="240">
+        <option disabled>---省份---</option>
+      </select>
+      <select class="js_city" name="city" 1data-value="244">
+        <option disabled>---市---</option>
+      </select>
+      <select class="js_area" name="area" 1data-value="323">
+        <option disabled>---区/县---</option>
+      </select>
+      <input type="submit" value="submit"/>
+      </form>
+    </div>
+
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/address-selector-crm.js"></script>
+
+    <script type="text/javascript" >
+      var selector = new AddressSelectorCrm(".js_container");
+      selector.setValue(240 , 244 , 323);
+    </script>
+  </body>
+</html>
