@@ -1,0 +1,26 @@
+dialog1 : 
+<iframe src="test-sub_1.html">
+</iframe>
+dialog2 : 
+<iframe src="test-sub_2.html">
+</iframe>
+
+<script>
+	var regExp = /^(\d{3,4}-?)\d{7,8}$|^\d{11}$/;
+	//较验规则：区号(3~4)+[-]+电话号码(7~8) 或 11位数字的移动电话
+
+	console.log(regExp.exec('712-1234567'));
+	console.log(regExp.exec('0871-12345678'));
+	console.log(regExp.exec('0871-123456789'));
+	console.log(regExp.exec('081-1234567'));
+	console.log(regExp.exec('081-12345678'));
+	console.log(regExp.exec('081-123456789'));
+	console.log(regExp.exec('01234567'));
+	console.log(regExp.exec('012345678'));
+	console.log(regExp.exec('08'));
+	console.log(regExp.exec('12345678901')); 
+	console.log(regExp.exec('0871234567')); 
+	console.log(regExp.exec('08731234567')); 
+	console.log(regExp.exec('087112345678')); 
+	console.log(regExp.exec('0871123456789')); 
+</script>
