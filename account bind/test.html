@@ -1,0 +1,149 @@
+<html>
+<meta charset="UTF-8"/>
+<style type="text/css">
+	.clear {
+		clear : both;
+	}
+	
+	.yxt-panel {
+		color : #333333;
+	}
+
+	.yxt-panel-col .yxt-panel-body{
+		display : none;
+	}
+
+	.yxt-panel .yxt-panel-header{
+		font-size : 12px ;
+		position : relative;
+		padding : 10px;
+	}
+
+	.yxt-panel .yxt-header-toolbar{
+		position : absolute;
+		top : 10px;
+		right : 10px;
+	}
+
+	.yxt-panel .yxt-header-toolbar a{
+		cursor : pointer;
+	}
+
+	.yxt-panel .yxt-panel-body {
+		padding : 10px;
+		overflow: auto;
+	}
+
+	.yxt-account-bind {
+		background : #f9f9f9;
+		margin-top : 10px;
+	}
+
+	.yxt-account-bind .bind-action {
+		float : left;
+		width : 60%;
+	}
+
+	.yxt-account-bind .bind-desc {
+		color : #71b247;
+		display:  block;
+		font-size: 18px;
+		margin : 0px 0px 10px 0px;
+	}
+
+	.yxt-account-bind .bind-action button {
+		background-color: #f5fbef;
+		padding : 6px 10px;
+		border : 1px solid #bfd6af;
+		border-radius: 2px;
+	}
+
+	.yxt-account-bind .bind-image {
+		float : right;
+		width : 30%;
+		height : 60px;
+		border-left : 1px solid #dddddd;
+		padding : 10px 20px;
+	}
+</style>
+
+<div class="yxt-panel">
+	<div class="yxt-panel-header">
+		联合登录绑定
+	</div>
+	<div class="yxt-panel-body">
+		<div class="yxt-panel yxt-account-bind">
+			<div class="yxt-panel-header">
+				<div class="yxt-panel-title"><strong>绑定QQ账号</strongs></div>
+				<div class="yxt-header-toolbar">
+					<a class="j-panel-trigger" collapsed="收起" expanded="绑定">收起</a>
+				</div>
+			</div>
+			<div class="yxt-panel-body">
+				<div class="float-left bind-action">
+					<strong class="bind-desc">绑定后，可以使用QQ帐号登录商城购物</strong>
+					<button>立即绑定</button>
+				</div>
+				<div class="float-right bind-image">
+					<img src="safe.jd.com/misc/skin/i/logo02.png"/>
+				</div>
+			</div>
+		</div>	
+
+		<div class="yxt-panel yxt-account-bind">
+			<div class="yxt-panel-header">
+				<div class="yxt-header-title"><strong>绑定微信账号</strong></div>
+				<div class="yxt-header-toolbar">
+					<a class="j-panel-trigger" collapsed="收起" expanded="绑定">收起</a>
+				</div>
+			</div>
+			<div class="yxt-panel-body">
+				<div class="float-left bind-action">
+					<strong class="bind-desc">绑定后，可以使用微信帐号登录商城购物</strong>
+					<button>立即绑定</button>
+				</div>
+				<div class="float-right bind-image">
+					<img src="safe.jd.com/misc/skin/i/logo02.png"/>
+				</div>
+			</div>
+		</div>
+
+		<div class="yxt-panel yxt-account-bind">
+			<div class="yxt-panel-header">
+				<div class="yxt-header-title"><strong>绑定微博账号</strong></div>
+				<div class="yxt-header-toolbar">
+					<a class="j-panel-trigger" collapsed="收起" expanded="绑定">收起</a>
+				</div>
+			</div>
+			<div class="yxt-panel-body">
+				<div class="float-left bind-action">
+					<strong class="bind-desc">绑定后，可以使用微博帐号登录商城购物</strong>
+					<button>立即绑定</button>
+				</div>
+				<div class="float-right bind-image">
+					<img src="safe.jd.com/misc/skin/i/logo02.png"/>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+	(function(){
+		$(document).ready(function(){
+			$('.j-panel-trigger').bind('click' , function(){
+				var parent = $(this).parents('.yxt-panel')[0];
+				if($(parent).hasClass('yxt-panel-col')){
+					$(parent).removeClass('yxt-panel-col');
+					$(this).html($(this).attr('collapsed'));
+				}else{
+					$(parent).addClass('yxt-panel-col');
+					$(this).html($(this).attr('expanded'));
+				}
+			});
+		});
+
+	})();
+</script>
+</html>
