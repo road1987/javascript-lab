@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="hongchun.li">
+    <title></title>
+    <link rel="stylesheet" href="css/style.css"/>
+  </head>
+  <body>
+    <div class="js_container">
+        <div style="height:200px;"></div>
+        <button id="address">address selector</button>
+        <div id="result"></div>
+    </div>
+
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/address-selector-hybris.js"></script>
+
+    <script type="text/javascript" >
+      var selector = new AddressSelector({ 
+        trigger : "#address",
+        onFinish : function( data ){
+          $('#result').html(
+              data['region'].name + data['city'].name + data['district'].name + data['street'].name);
+        }
+      });
+    </script>
+  </body>
+</html>
