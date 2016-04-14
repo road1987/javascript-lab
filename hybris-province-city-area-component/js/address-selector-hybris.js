@@ -10,9 +10,8 @@
 	 * @param example 
 	 * options = {
 	 * 		trigger : "#trigger"
-	 *   	reqUrl  : { 
-	 *   		region : https://200.20.30.55:9002/yxtws/v2/hxyxt/yaomeng/chainstores/region/CN?regionType=region
-	 *   	}
+	 * 		// regionType can be ( region | city | district | street )
+	 *   	reqUrl  : /yxtws/v2/hxyxt/yaomeng/chainstores/region/{{isocode}}?regionType={{regionType}}
 	 * }
 	 * 
 	 */
@@ -20,12 +19,7 @@
 		this._trigger = options.trigger ;
 		this._onFinish = options.onFinish || function(){
 		};
-		this.reqUrl  = {
-			"region"   : "https://200.20.30.55:9002/yxtws/v2/hxyxt/yaomeng/chainstores/region/{{ isocode }}?regionType=region",
-			"city"	   : "https://200.20.30.55:9002/yxtws/v2/hxyxt/yaomeng/chainstores/region/{{ isocode }}?regionType=city",
-			"district" : "https://200.20.30.55:9002/yxtws/v2/hxyxt/yaomeng/chainstores/region/{{ isocode }}?regionType=dictrict",
-			"street"   : "https://200.20.30.55:9002/yxtws/v2/hxyxt/yaomeng/chainstores/region/{{ isocode }}?regionType=street"	
-		};
+		this._reqUrl  = options.reqUrl || null;
 		this.data = {
 			country : { isocode : "CN" , name : "中国"}, 
 			region 	: null,
@@ -55,7 +49,6 @@
 		},
 
 		setAddressData : function( regionType , value ){
-			
 			var me = this;
 			if( arguments.length === 1){
 				this.data = arguments[0];
@@ -82,25 +75,6 @@
 				if( regionTypeIndex < regionTypeArray.length - 1 ){
 					this._selectTabItem(regionTypeArray[++regionTypeIndex]);
 				}
-				/*
-				if(regionType == "country"){
-					this.data['region'] = '';
-					this.data['city'] = '';
-					this.data['district'] = '';
-					this.data['street'] =  '';
-				}else if(regionType =="region"){
-					this.data['city'] = '';
-					this.data['district'] = '';
-					this.data['street'] =  '';
-					this._selectTabItem('city');	
-				}else if(regionType == "city"){
-					this.data['district'] = '';
-					this.data['street'] =  '';
-					this._selectTabItem('district');
-				}else if(regionType == "district"){
-					this.data['street'] =  '';
-					this._selectTabItem('street');
-				}*/
 			}
 			
 			//show or hide J_tab_item
@@ -132,8 +106,10 @@
 
 			var me = this;
 			var regionType = itemInfo.regionType;
+			//for fix data interface word wrong
+			var regionTypeBugFix = (regionType == 'district') ? 'dictrict' : regionType;
 			var isocode = itemInfo.isocode;
-			var reqUrl = this.reqUrl[regionType].replace(/{{\s*isocode\s*}}/, isocode);
+			var reqUrl = this._reqUrl.replace(/{{\s*isocode\s*}}/, isocode).replace( /{{\s*regionType\s*}}/, regionTypeBugFix);
 
 			$.ajax({
 	            url : reqUrl,
@@ -231,19 +207,13 @@
 				innerHTML.push('	<div class="close">×</div>');
 				innerHTML.push('	<ul class="tab">');
 				innerHTML.push('		<li class="J_tab_item_region tab-item tab-item-active" data-index="region">请选择</li>');
-				innerHTML.push('		<li class="J_tab_item_city tab-item" data-index="city">请选择</li>');
-				innerHTML.push('		<li class="J_tab_item_district tab-item" data-index="district">请选择</li>');
-				innerHTML.push('		<li class="J_tab_item_street tab-item" data-index="street">请选择</li>');
+				innerHTML.push('		<li class="J_tab_item_city tab-item" data-index="city" style="display:none;">请选择</li>');
+				innerHTML.push('		<li class="J_tab_item_district tab-item" data-index="district" style="display:none;">请选择</li>');
+				innerHTML.push('		<li class="J_tab_item_street tab-item" data-index="street" style="display:none;">请选择</li>');
 				innerHTML.push('	</ul>');
 				innerHTML.push('</div>');
 				innerHTML.push('<div class="hybris-address-selector-body">');
-				innerHTML.push('	<div class="tab-area tab-area-active J_tab_area_region">');				
-				// innerHTML.push('		<ul class="area-list">');
-				// innerHTML.push('			<li class="area-item"><a href="#" data-isocode="1" data-name="北京" data-region-type="region">北京</a></li>');
-				// innerHTML.push('			<li class="area-item"><a href="#" data-isocode="2" data-name="云南省" data-region-type="region">云南省</a></li>');
-				// innerHTML.push('			<li class="area-item"><a href="#" data-isocode="3" data-name="上海"  data-region-type="region">上海</a></li>');
-				// innerHTML.push('			<li class="area-item"><a href="#" data-isocode="4" data-name="南京"  data-region-type="region">南京</a></li>');
-				// innerHTML.push('		</ul>');
+				innerHTML.push('	<div class="tab-area tab-area-active J_tab_area_region">');
 				innerHTML.push('	</div>');
 				innerHTML.push('	<div class="tab-area J_tab_area_city">');				
 				innerHTML.push('	</div>');
