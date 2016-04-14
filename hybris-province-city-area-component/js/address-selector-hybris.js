@@ -19,9 +19,10 @@
 		this._trigger = options.trigger ;
 		this._onFinish = options.onFinish || function(){
 		};
-		this._reqUrl  = options.reqUrl || null;
+		this._reqUrl   = options.reqUrl || null;
+		this._initData = options.initData || null;
 		this.data = {
-			country : { isocode : "CN" , name : "中国"}, 
+			country : { isocode : "CN" , name : "中国" , regionType : 'country'}, 
 			region 	: null,
 			city : null,
 			district: null,
@@ -157,11 +158,17 @@
 			this._eventBind();
 			//UI BUILD , EVENT BIND
 			//初始化省份信息
+			var data = this._initData || this.data;
+			for(var i in data){
+				if( data[i] ){
+					this.setAddressData( i , data[i]);
+				}
+			}/*
 			this.loadAddressListInfo({
 				name : '',
 				isocode : 'CN',
 				regionType : 'region'
-			});
+			});*/
 		},
 
 		_eventBind : function(){
