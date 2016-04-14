@@ -93,8 +93,8 @@
 
 		showPanel : function(){
 			var triggerElm = $( this._trigger ).get(0); 
-			var X = triggerElm.getBoundingClientRect().left+document.documentElement.scrollLeft;
- 			var Y = triggerElm.getBoundingClientRect().top+document.documentElement.scrollTop + $(triggerElm).height();
+			var X = triggerElm.getBoundingClientRect().left+$(document).scrollLeft();
+ 			var Y = triggerElm.getBoundingClientRect().top+$(document).scrollTop() + $(triggerElm).height();
 			$(this._panelElement).css({"top" : Y, "left" : X }).show();
 		},
 
