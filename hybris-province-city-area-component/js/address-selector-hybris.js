@@ -107,9 +107,9 @@
 			var me = this;
 			var regionType = itemInfo.regionType;
 			//for fix data interface word wrong
-			var regionTypeBugFix = (regionType == 'district') ? 'dictrict' : regionType;
+			//var regionTypeBugFix = (regionType == 'district') ? 'dictrict' : regionType;
 			var isocode = itemInfo.isocode;
-			var reqUrl = this._reqUrl.replace(/{{\s*isocode\s*}}/, isocode).replace( /{{\s*regionType\s*}}/, regionTypeBugFix);
+			var reqUrl = this._reqUrl.replace(/{{\s*isocode\s*}}/, isocode).replace( /{{\s*regionType\s*}}/, regionType);
 
 			$.ajax({
 	            url : reqUrl,
