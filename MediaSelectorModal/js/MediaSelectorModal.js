@@ -9,8 +9,8 @@ function MediaSelector(options){
 
       this._options = {};
       this._options.multiple = options.multiple || false;
-      this._options.categoryUrl = options.categoryUrl || "/admin/mediaCategory";
-      this._options.mediaUrl    = options.mediaUrl || "/admin/medias?page={page}&cat={categoryId}&fmt=json";
+      this._options.categoryServUrl = options.categoryServUrl;
+      this._options.mediaServUrl    = options.mediaServUrl;
       //event
       this._options.onFinish = options.onFinish || function(){};
       this._options.onCancel = options.onCancel || function(){};
@@ -253,7 +253,10 @@ function MediaSelector(options){
         var testData = {"success":true,"data":[{"_id":"","name":"uncategorized","mediasCount":11},{"_id":"57178c78d3892558e4593be6","name":"三七","mediasCount":15},{"_id":"57470308ca29ef54303526db","name":"活动2015","mediasCount":11}]};
         success(testData);
 
-        var reqUrl = this._options.categoryUrl;
+        if(!this._options.categoryServUrl){
+          throw new Error("categoryServUrl is undefined!");
+        }
+        var reqUrl = this._options.categoryServUrl;
         $.ajax({
              url: reqUrl,
              type: "GET",
@@ -278,7 +281,10 @@ function MediaSelector(options){
         success(testData);
         config.page = config.page || 1;
         config.categoryId = config.categoryId || '';
-        var reqUrl = this._options.mediaUrl.replace(/{page}/gi, config.page).replace(/{categoryId}/gi, config.categoryId);
+        if(!this._options.mediaServUrl){
+          throw new Error("mediaServUrl is undefined!");
+        }
+        var reqUrl = this._options.mediaServUrl.replace(/{page}/gi, config.page).replace(/{categoryId}/gi, config.categoryId);
           $.ajax({
              url: reqUrl,
              type: "GET",

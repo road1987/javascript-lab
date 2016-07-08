@@ -162,13 +162,14 @@
     <script type="text/javascript" src="libs/fex-webuploader/dist/webuploader.min.js"></script>
     <script type="text/javascript" src="js/MediaSelectorModal.js"></script>
     <script>
-
       //demo 
       var mSelector = new MediaSelector({
-         multiple : false,
-         onFinish : function(result){
-            alert(result._id);
-         }
+           multiple : false,
+           categoryServUrl : "/admin/mediaCategory",
+           mediaServUrl : "/admin/medias?page={page}&cat={categoryId}&fmt=json",
+           onFinish : function(result){
+              alert(result._id);
+           }
       });
 
       $("#js-trigger").click(function(){
