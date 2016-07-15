@@ -1,0 +1,29 @@
+.sku-selector-box{
+	font-size: 14px;
+}
+
+.sku-selector-item{
+	margin : 5px 0px;
+	position: relative;
+	border: 1px solid #eeeeee;
+}
+
+.sku-selector-item-label {
+	position: absolute;
+	left: 0px;
+	width : 100px;
+}
+
+.sku-selector-item-options {
+	margin-left : 100px;
+}
+
+.sku-selector-item-options button{
+	border : 1px solid gray;
+	margin : 0px 5px;
+}
+
+.sku-selector-item-options button.selected{
+	border : 1px solid red;
+	color : red;
+}

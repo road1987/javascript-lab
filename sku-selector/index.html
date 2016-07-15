@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="hongchun.li">
+    <title></title>
+    <link rel="stylesheet" href="css/style.css"/>
+  </head>
+  <body>
+    <div id="price"></div>
+    <div class="js_container">
+    </div>
+
+    <!--test Data-->
+    <script src="data/variantFeatures.js"></script>
+    <script src="data/variantData.js"></script>     
+    <script src="data/variantDataNew.js"></script>   
+
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/SkuSelector.js"></script>
+
+    <script type="text/javascript" >
+        var skuSelector = new SkuSelector({
+            container : '.js_container',
+            features : variantFeatures,
+            resultDatas : variantDataNew,
+            onCheckReady : function(resp){
+                if(!resp){
+                    $('#price').text("--");
+                }else{
+                    var prices = resp.prices;
+                    var maxPrice = Math.max.apply(Math, prices);
+                    var minPrice = Math.min.apply(Math, prices);
+                    $('#price').text(maxPrice > minPrice ? minPrice + "-" + maxPrice : maxPrice);
+                }
+            }
+        });
+    </script>
+  </body>
+</html>
