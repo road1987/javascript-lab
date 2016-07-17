@@ -86,7 +86,6 @@ SkuSelector.prototype = {
 		$(this._container).html( view );
 		this.bindEvent();
 		this._buildSkuResult();
-
 		//
 		$(this._container).find('.sku-item-option').each(function() {
 	        var self = $(this);
@@ -126,7 +125,7 @@ SkuSelector.prototype = {
 
 	            //用已选中的节点验证待测试节点 underTestObjs
 	            $(".sku-item-option").not($selectedItems).not($self).each(function() {
-	                var siblingsSelectedObj = $(this).siblings('.sku-item-option .selected');
+	                var siblingsSelectedObj = $(this).siblings('.selected');
 	                var testAttrIds = [];//从选中节点中去掉选中的兄弟节点
 	                if(siblingsSelectedObj.length) {
 	                    var siblingsSelectedObjId = siblingsSelectedObj.attr('id');
@@ -144,7 +143,8 @@ SkuSelector.prototype = {
 	                testAttrIds = Util.Sort.minToMax(testAttrIds);
 
 	                if(!me._SKUResult[testAttrIds.join(';')]) {
-	                    $(this).attr('disabled', 'disabled').removeClass('selected');
+	                    $(this).attr('disabled', 'disabled');
+	                    $(this).removeClass('selected');
 	                } else {
 	                    $(this).removeAttr('disabled');
 	                }
@@ -154,7 +154,12 @@ SkuSelector.prototype = {
 	            me._onCheckReady(null);
 	            //设置属性状态
 	            $('.sku-item-option').each(function() {
-	                me._SKUResult[$(this).attr('id')] ? $(this).removeAttr('disabled') : $(this).attr('disabled', 'disabled').removeClass('selected');
+	                if(me._SKUResult[$(this).attr('id')]){
+	                	$(this).removeAttr('disabled');
+	                }else{
+	                	$(this).attr('disabled', 'disabled');
+	                	$(this).removeClass('selected');
+	                }
 	            })
         	}
 		});

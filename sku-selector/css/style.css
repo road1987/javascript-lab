@@ -23,6 +23,11 @@
 	margin : 0px 5px;
 }
 
+.sku-selector-item-options button.disabled{
+	border : 1px dotted gray;
+	color : gray;
+}
+
 .sku-selector-item-options button.selected{
 	border : 1px solid red;
 	color : red;
