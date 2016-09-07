@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title></title>
+    <style type="text/css">
+    	.clearfix:before,
+		.clearfix:after {
+		    content: "";
+		    display: table;
+		} 
+		
+		.clearfix:after {
+		    clear: both;
+		}
+		
+		.clearfix {
+		    zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+		}
+		
+		.yxt-panel *{
+			box-sizing:border-box;
+			-moz-box-sizing:border-box; /* Firefox */
+			-webkit-box-sizing:border-box; /* Safari */
+		}
+
+    	.yxt-panel{
+    		width: 960px;
+    		min-height : 600px;
+			margin : 0px auto;
+			border : 1px solid #eeeeee;
+    	}
+    	
+    	
+    	.yxt-order-review-form{
+    		width : 800px;
+  			margin : 20px auto;
+    	}
+    	
+    	.yxt-order-review-form .order-item-box{
+    		border-bottom : 1px dashed #cccccc;
+    		padding : 20px 0px;
+    	}
+    	
+    	.yxt-order-review-form .order-item-box .order-item-info img{
+    		height : 120px;
+    		display : block;
+    		margin : 0px auto;
+    	}
+    	
+    	.yxt-order-review-form .order-item-box .order-item-info{
+    		width : 180px;
+  			float : left;
+ 			font-size : 12px;
+ 			padding : 10px;
+ 			overflow : hidden;
+    	}
+    	
+    	.yxt-order-review-form .order-item-box .order-item-info .item-name{
+			word-wrap : break-word;
+    	}
+    	
+    	.yxt-order-review-form .order-item-box .order-item-info .item-desc{
+			word-wrap : break-word;
+			color : #999999;
+    	}
+    	
+    	.yxt-order-review-form .order-item-box .order-item-info a{
+			text-decoration : none;
+			color : #666666;
+    	}
+    	
+    	
+    	.yxt-order-review-form .order-item-box .order-item-form{
+    		width : 610px;
+    		float : right;
+    	}
+		
+		.form-control-group {
+			position : relative;
+			margin-top : 10px;
+		}
+		
+		.form-control-group-star{
+			padding-left : 120px; 
+		}
+		
+		.form-control-group-star .form-control-label{
+			position : absolute;
+			left : 0px;
+			width : 120px;
+			font-size : 12px;
+			line-height : 22px;
+			color : #999999;
+		}
+		
+		.form-control-group .star-wrapper label.star{
+			display : block;
+			width : 22px;
+			height : 22px;
+			float : left;
+			background : url("index_files/star.png") no-repeat;
+			overflow : hidden;
+			margin-right : 20px;
+			cursor : pointer;
+		}
+		
+		.form-control-group .star-wrapper label.star input{
+			margin-left : -100px;
+		}
+		
+		.form-control-group .star-wrapper label.star.selected{
+			background-position : 0px -100px;
+		}
+		
+		.order-item-form .comment-box{
+			border : 1px solid #e2e4e3;
+		}
+		
+		.order-item-form .comment-box textarea{
+			width : 100%;
+			height : 100px;
+			border : none;
+			resize : none;
+			outline : none;
+			outline-width : 0px;
+			padding : 10px;
+		}
+		
+		.order-item-form .upload-image-bar{
+			height : 40px;
+			line-height : 40px;
+			background-color : #f2ede5; 
+		}
+		
+		.order-item-form .uploaded-image-list .file-item{
+			width : 80px;
+			height : 80px;
+			border : 1px solid #eeeeee;
+			position : relative;
+			overflow : hidden;
+			margin : 5px 5px 5px 0px;
+			float : left;
+		}
+		
+		.order-item-form .uploaded-image-list .file-item .upload-error{
+			position : absolute;
+			color : red;
+			background : #000000;
+			top : 0px;
+			text-align : center;
+			width : 100%;
+			height : 20px;
+			line-height : 20px;
+			font-size : 12px;
+			opacity : 0.6;
+		}
+		
+		.order-item-form .uploaded-image-list .file-item img{
+			height : 100%;
+		}
+		
+		.order-item-form .uploaded-image-list .file-item .remove-item{
+			position : absolute;
+			bottom : 0px;
+			height : 20px;
+			line-height : 20px;
+			background : #000000;
+			text-align: center;
+			color : white;
+			font-size : 12px;
+			width : 100%;
+			cursor : pointer;
+			opacity : 0.8;
+			display : none;
+		}
+		
+		.order-item-form .uploaded-image-list .file-item a{
+			display : block;
+			height : 100%;
+			width : 100%;
+		}
+		
+		.order-item-form .uploaded-image-list .file-item a:hover .remove-item{
+			display : block;
+		}
+		
+		.order-server-review{
+			padding:20px;
+			color : #999999;
+			font-size:14px;
+			background:#eeeeee;
+			font-weight:bold;
+			text-align:center;
+		}
+		
+		.yxt-panel .webuploader-pick{
+			height : 40px;
+			background : #b49372;
+			padding : 0px 15px;
+			font-size : 12px;
+		}
+		
+		.yxt-panel .webuploader-pick-hover{
+			background : #a38261;
+		}
+		 
+		 
+		.yxt-order-review-form-toolbar{
+			margin-top : 20px;
+		}
+		
+		.yxt-order-review-form-toolbar .btn-submit{
+			height:40px;
+			padding:0px 40px;
+			margin-left:180px;
+			background:#d72b34;
+			border:0px;
+			color:white;
+			font-weight:bold;
+			font-size:14px;
+		}
+    </style>
+	<link rel="stylesheet" type="text/css" href="./index_files/webuploader.css">
+	
+</head>
+<body>
+	<div class="yxt-panel">
+		<form class="yxt-order-review-form">
+			<input class="J_OrderCode" name="orderCode" type="hidden" value="100000005J2R">
+			<div class="order-item-box clearfix J_OrderItemBox" data-producturl="/p/500000004000.html" data-productcode="500000004000">
+					<input class="J_ProductCode" name="productCode" type="hidden" value="500000004000">
+					<div class="order-item-info">
+						<a href="http://localhost:9001/p/500000004000.html">
+							<img src="./index_files/8811923308574.jpg" bigimg="http://localhost:9001/medias/sys_master/images/images/h45/h6c/8811923308574.jpg" alt="test product 4" title="test product 4">
+						</a>								
+						<div class="item-name"><a href="http://localhost:9001/p/500000004000.html">test product 4</a></div>
+						<div class="item-desc"></div>
+					</div>
+					<div class="order-item-form">
+						<div class="form-control-group form-control-group-star J_Rating">
+							<label class="form-control-label">您的评分:</label>
+							<div class="star-wrapper clearfix">
+								<label class="star">
+									<input class="J_Rating" name="rating500000004000" type="radio" value="1">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000004000" type="radio" value="2">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000004000" type="radio" value="3">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000004000" type="radio" value="4">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000004000" type="radio" value="5">
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-control-group">
+							<div class="comment-box">
+								<textarea name="comment" placeholder="添加评论" class="J_Comment"></textarea>
+							</div>
+							<div class="upload-image-bar">
+								<div id="picker500000004000" class="webuploader-container"><div class="webuploader-pick">添加图片</div><div id="rt_rt_1as157iqa1khd1hoj1tmh1q4d1go01" style="position: absolute; top: 0px; left: 0px; width: 78px; height: 40px; overflow: hidden; bottom: auto; right: auto;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label></div></div>
+							</div>
+							
+							<div class="J_MediaUrlList uploaded-image-list clearfix">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			<div class="order-item-box clearfix J_OrderItemBox" data-producturl="/p/500000002001.html" data-productcode="500000002001">
+					<input class="J_ProductCode" name="productCode" type="hidden" value="500000002001">
+					<div class="order-item-info">
+						<a href="http://localhost:9001/p/500000002001.html">
+							<img src="./index_files/8811825332254.jpg" bigimg="http://localhost:9001/medias/sys_master/images/images/ha5/h39/8811825332254.jpg" alt="test product 11" title="test product 11">
+			</a>								
+						<div class="item-name"><a href="http://localhost:9001/p/500000002001.html">test product 11</a></div>
+						<div class="item-desc"></div>
+					</div>
+					<div class="order-item-form">
+						<div class="form-control-group form-control-group-star J_Rating">
+							<label class="form-control-label">您的评分:</label>
+							<div class="star-wrapper clearfix">
+								<label class="star">
+									<input class="J_Rating" name="rating500000002001" type="radio" value="1">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000002001" type="radio" value="2">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000002001" type="radio" value="3">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000002001" type="radio" value="4">
+								</label>
+								<label class="star">
+									<input class="J_Rating" name="rating500000002001" type="radio" value="5">
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-control-group">
+							<div class="comment-box">
+								<textarea name="comment" placeholder="添加评论" class="J_Comment"></textarea>
+							</div>
+							<div class="upload-image-bar">
+								<div id="picker500000002001" class="webuploader-container"><div class="webuploader-pick">添加图片</div><div id="rt_rt_1as157iqc1t3i12ar1hfrle1a364" style="position: absolute; top: 0px; left: 0px; width: 78px; height: 40px; overflow: hidden; bottom: auto; right: auto;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label></div></div>
+							</div>
+							
+							<div class="J_MediaUrlList uploaded-image-list clearfix">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			<div class="order-item-box clearfix">
+				<div class="order-item-info">
+					<div class="order-server-review">订单动态评分</div>
+				</div>
+				<div class="order-item-form">
+					<div class="form-control-group form-control-group-star J_SimilarRating">
+						<label class="form-control-label">宝贝与描述相符:</label>
+						<div class="star-wrapper clearfix">
+							<label class="star">
+								<input name="similarRating" type="radio" value="1">
+							</label>
+							<label class="star">
+								<input name="similarRating" type="radio" value="2">
+							</label>
+							<label class="star">
+								<input name="similarRating" type="radio" value="3">
+							</label>
+							<label class="star">
+								<input name="similarRating" type="radio" value="4">
+							</label>
+							<label class="star">
+								<input name="similarRating" type="radio" value="5">
+							</label>
+						</div>
+					</div>
+					
+					<div class="form-control-group form-control-group-star J_ServerRating">
+						<label class="form-control-label">卖家的服务态度:</label>
+						<div class="star-wrapper clearfix">
+							<label class="star">
+								<input name="serverRating" type="radio" value="1">
+							</label>
+							<label class="star">
+								<input name="serverRating" type="radio" value="2">
+							</label>
+							<label class="star">
+								<input name="serverRating" type="radio" value="3">
+							</label>
+							<label class="star">
+								<input name="serverRating" type="radio" value="4">
+							</label>
+							<label class="star">
+								<input name="serverRating" type="radio" value="5">
+							</label>
+						</div>
+					</div>
+					
+					<div class="form-control-group form-control-group-star J_LogisticsRating">
+						<label class="form-control-label">物流的服务质量:</label>
+						<div class="star-wrapper clearfix">
+							<label class="star">
+								<input name="logisticsRating" type="radio" value="1">
+							</label>
+							<label class="star">
+								<input name="logisticsRating" type="radio" value="2">
+							</label>
+							<label class="star">
+								<input name="logisticsRating" type="radio" value="3">
+							</label>
+							<label class="star">
+								<input name="logisticsRating" type="radio" value="4">
+							</label>
+							<label class="star">
+								<input name="logisticsRating" type="radio" value="5">
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="yxt-order-review-form-toolbar">
+				<button class="btn-submit" type="submit" value="提交评论">提交评论</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript" src="./index_files/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="./index_files/webuploader.js"></script>
+	<script type="text/javascript">
+		(function(window , undefined ){
+			window.YXT = window.YXT || {};
+			var orderReview = {
+				init : function(){
+					orderReview._bindSelectedStarEvent();
+					orderReview._bindUploadEvent();
+					orderReview._bindFromSubmitEvent();
+				},
+				
+				onSubmit : function(){
+					alert(orderReview.getJsonData());
+					return false;
+				},
+				
+				getJsonData : function(){
+					var $form = $("form.yxt-order-review-form");
+					var resultData = {
+						 "similarRating" : $form.find(".J_SimilarRating input[name=similarRating]:checked").val(),
+						 "logisticsRating" : $form.find(".J_LogisticsRating input[name=logisticsRating]:checked").val(),
+						 "serverRating" : $form.find(".J_ServerRating input[name=serverRating]:checked").val(),
+						 "isAdditionalReview" : false,
+						 "orderCode" : $form.find(".J_OrderCode").val(),
+						 "productReviewList" : []
+					}
+					
+					$form.find(".J_OrderItemBox").each(function(i , item){
+						var productReview = {
+								"productCode" : $(item).find(".J_ProductCode").val(),
+								"rating" : $(item).find(".J_Rating input.J_Rating:checked").val(),
+								"comment" :  $(item).find(".J_Comment").val(),
+								"mediaUrlList" : []
+						}
+						$(item).find(".J_MediaUrlList input.J_MediaUrl").each(function(i , fileItem){
+							productReview.mediaUrlList.push({
+							    "url": $(fileItem).val()
+							});
+						});
+						resultData.productReviewList.push(productReview);
+					});
+					
+					return resultData;
+				},
+				
+				_bindFromSubmitEvent : function(){
+					var $form = $("form.yxt-order-review-form");
+					$form.bind("submit" , function(){
+						return orderReview.onSubmit();
+					});
+				},
+				
+				_bindSelectedStarEvent : function(){
+					$(".form-control-group-star .star-wrapper .star").bind("click" , function(){
+						var me = this;
+						var $starGroup = $(this).parent().find('.star');
+						$starGroup.removeClass("selected");
+						$starGroup.each(function(i ,item){
+							$(item).addClass("selected");
+							if(item === me){
+								return false;
+							}
+						});
+					});
+				},
+				
+				_bindUploadEvent : function(){
+					$(".order-item-box").each(function( i , item ){
+						var reqUrl = $(item).attr("data-producturl") + '/reviewImages?CSRFToken=c3e39efb-1a3c-4aef-8b42-245e444507e7';
+						var pickId = '#picker' + $(item).attr("data-productcode");
+						var $uploadedImageList  = $(item).find('.uploaded-image-list');
+							
+						var uploader = WebUploader.create({
+						    auto: true,
+						    swf: '/_ui/desktop/common/js/webuploader-0.1.5/js/Uploader.swf',
+						    server: reqUrl,
+						    pick: pickId,
+						    fileNumLimit : 5,
+						    resize: false,
+						    accept: {
+						        title: 'Images',
+						        extensions: 'gif,jpg,jpeg,bmp,png',
+						        mimeTypes: 'image/*'
+						    }
+						});
+						
+						uploader.on( 'uploadSuccess', function( file , response) {
+							var imgsrc = response._raw || response;
+						    var $li = $(
+						            '<div id="' + file.id + '" class="file-item">' +
+						            	'<a href="javascript:void()">' + 
+						                	'<img src="' + imgsrc  + '"/>' +
+						                	'<div class="remove-item">删除图片</div>' +
+						                '</a>'+
+						                '<input class="J_MediaUrl" type="hidden" value="'+ imgsrc +'"/>' +
+						            '</div>'
+						            );
+						    $uploadedImageList.append( $li );
+						    $li.find(".remove-item").click(function(){
+						    	uploader.removeFile( file );
+						    	$(this).parents(".file-item").remove();
+						    });
+						});
+
+						uploader.on( 'uploadError', function( file ) {
+							$("#" + file.id +" .upload-error").show();
+						    var $li = $(
+						            '<div id="' + file.id + '" class="file-item">' +
+						            	'<a href="javascript:void()">' + 
+						            		'<div class="upload-error">上传失败</div>' +
+						                	'<img />' +
+						                	'<div class="remove-item">删除图片</div>' +
+						                '</a>'+
+						            '</div>'
+						    );
+						   
+						    $uploadedImageList.append( $li );
+						    var $img = $li.find('img');
+						    uploader.makeThumb( file, function( error, src ) {
+							   if ( error ) {
+							      $img.replaceWith('<span>不能预览</span>');
+							      return;
+							   }
+							   $img.attr( 'src', src );
+							}, 80, 80 );
+						    
+						    $li.find(".remove-item").click(function(){
+						    	uploader.removeFile( file );
+						    	$(this).parents(".file-item").remove();
+						    });
+						});
+					});
+				}/* end of bindUploadEvent */	
+			}
+			
+			window.YXT.orderReview = orderReview;
+		})(window);
+		
+		YXT.orderReview.init();
+	</script>
+</body>
+</html>
