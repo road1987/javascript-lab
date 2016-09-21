@@ -1,0 +1,67 @@
+.carousel-box *{
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}
+/* Tiny Carousel */
+.carousel-box { 
+    overflow: hidden;  
+    position: relative;
+    height: 100%;
+}
+
+.carousel-box .viewport { 
+    width: 360px; 
+    height: 100%; 
+    position: relative;
+    overflow: hidden;
+    margin : 0px auto;
+}
+
+.carousel-box .buttons {
+    position: absolute;
+    display: block;
+    width: 35px;
+    height: 35px;
+    text-decoration: none;
+    top: 50%;
+    margin-top : -17px;
+    z-index: 9999;
+}
+
+.carousel-box .prev {
+    left : 0px;
+    background: url("images/carousel-prev.png") 7px 5px no-repeat;
+}
+
+.carousel-box .next {
+    right : 0px;
+    background: url("images/carousel-next.png") 7px 5px no-repeat;
+}
+
+.carousel-box .disable { 
+    visibility: hidden; 
+}
+
+.carousel-box .overview { 
+    list-style: none; 
+    position: absolute; 
+    padding: 0; 
+    margin: 0; 
+    width: 240px; 
+    left: 0; 
+    top: 0; 
+}
+
+.carousel-box .overview li.carousel-item { 
+    float: left;   
+    height: 100%; 
+    width: 360px; 
+    overflow: hidden;
+}
+
+.carousel-box .overview li.carousel-item a{ 
+    display: block;
+    float : left;
+    margin : 10px 10px 0px 10px;
+}

@@ -115,7 +115,7 @@
 		     //alert(0 - elem.getBoundingClientRect().top);
 		 var scrollTop = $('body').scrollTop() ? $('body').scrollTop() : $('html').scrollTop();
       	 var position = scrollTop + (elem.getBoundingClientRect().top);
-		 $('html').animate({scrollTop: position },"slow",'swing');
+		 $(document.body).animate({scrollTop: position },"slow",'swing');
 	}, 500);
 	// 结合 nicescroll 可以变换更好的滚动条	 
 		
