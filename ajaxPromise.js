@@ -1,7 +1,7 @@
 /**
 * A promise object can register multiple 'then' and 'catch' , a then or catch can return a new promise object with the (thenHandler) return value 
 * or catchHandle return value   
-*
+* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch
 */
 
 var asyncReq = function( data){
