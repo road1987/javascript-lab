@@ -26,6 +26,13 @@ var asyncReq = function( data){
   promise1.catch(function(error) {
     console.log("second catch : " + error);
   });
+  
+    promise1.then(function(value) {
+    console.log(value);
+  });
+      promise1.then(function(value) {
+    console.log(value);
+  });
   return promise1;
 }
 // expected output: Uh-oh!
@@ -42,4 +49,4 @@ function ajaxWithLoading( promiseFun ){
     }
 }
 
-ajaxWithLoading(asyncReq)("").then(function(result){ console.log(result)}).catch(function(err){console.log(err)});
+ajaxWithLoading(asyncReq)("data").then(function(result){ console.log(result)}).catch(function(err){console.log(err)});
