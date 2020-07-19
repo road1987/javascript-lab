@@ -17,15 +17,12 @@ var OFFSET = {
 };
 var aBoundsElements = xmlDoc.getElementsByTagName("dc:Bounds");
 var aWayPointsElements = xmlDoc.getElementsByTagName("di:waypoint");
-[].forEach.call(aBoundsElements ,function(oItem){
-  var oCoor = { 
-    x :  Number(oItem.getAttribute("x")), 
-    y :  Number(oItem.getAttribute("y"))
-  };
-  oItem.setAttribute("x" , oCoor.x - OFFSET.x);
-  oItem.setAttribute("y" , oCoor.y - OFFSET.y);
-});
-[].forEach.call(aWayPointsElements ,function(oItem){
+    aBoundsElements = [].slice.call(aBoundsElements);
+    aWayPointsElements = [].slice.call(aWayPointsElements);
+var aElements = aBoundsElements.concat(aWayPointsElements);
+//ES6 solution, collection(array like object) to array 
+//aElements = [...aBoundsElements,...aWayPointsElements];
+aElements.forEach(function(oItem){
   var oCoor = { 
     x :  Number(oItem.getAttribute("x")), 
     y :  Number(oItem.getAttribute("y"))
