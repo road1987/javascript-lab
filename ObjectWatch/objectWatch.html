@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="input"/>
+    <script src="jquery-2.1.4.min.js"></script>
+    <script>
+        var objectChangeListener = function (oData, listener) {
+         listener = listener || function () {};
+         function createGetter(vValue) {
+           return function () {
+             return vValue;
+           };
+         }
+   
+         function arrayIntercept(aObject) {
+           var arrayMethod = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'];
+           arrayMethod.forEach(function (method) {
+             var originMethod = Array.prototype[method];
+             aObject[method] = function () {
+               listener();
+               originMethod.apply(this, arguments);
+             };
+           });
+         }
+   
+         function createSetter(oObject, sName) {
+           return function (vValue) {
+             listener(vValue, oObject, sName);
+             // Newly added data needs to be observed to be included
+             observeRecursive(vValue, oObject, sName);
+           };
+         }
+   
+         function createProperty(oObject, sName, vValue) {
+           // Do not create getter/setter for function references
+           if (typeof vValue === "function") {
+             oObject[sName] = vValue;
+           } else {
+             Object.defineProperty(oObject, sName, {
+               get: createGetter(vValue),
+               set: createSetter(oObject, sName)
+             });
+           }
+         }
+   
+         function observeRecursive(oObject, oParentObject, sName) {
+           if ($.isArray(oObject)) {
+             arrayIntercept(oObject);
+             for (var i = 0; i < oObject.length; i++) {
+               observeRecursive(oObject[i], oObject, i);
+             }
+           } else if ($.isPlainObject(oObject)) {
+             for (var i in oObject) {
+               observeRecursive(oObject[i], oObject, i);
+             }
+           }
+           if (oParentObject) {
+             createProperty(oParentObject, sName, oObject);
+           }
+         }
+         observeRecursive(oData);
+       }
+     </script>
+     <script>
+       var observedObject = {
+         prop : "avalue",
+         aPropGroup : [{
+          a : "a"
+         }]
+       }
+
+       objectChangeListener(observedObject , function(vValue, oObject, sName){
+         alert("Change happened!");
+         alert("new " + sName + " Value:" + vValue);
+         alert(oObject[sName]);
+       });
+
+       $("input").on("change" , function(){
+        observedObject.prop = $(this).val();
+       });
+
+     </script>
+</body>
+</html>
