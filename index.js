@@ -3,7 +3,8 @@ var
 http = require('http'),//helps with http methods
 path = require('path'),//helps with file paths
 fs = require('fs');//helps with file system tasks
- 
+const PORT = process.env.PORT || 5000;
+
 //a helper function to handle HTTP requests
 function requestHandler(req, res) {
     var
@@ -47,5 +48,5 @@ function requestHandler(req, res) {
 };
  
 
-http.createServer(requestHandler).listen(3001);
-console.log("start web server at port 3001");
+http.createServer(requestHandler).listen(PORT);
+console.log(`start web server at port ${PORT}`);
