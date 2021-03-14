@@ -30,6 +30,7 @@ function requestHandler(req, res) {
             if(!err){
                 //send the contents of index.html
                 //and then close the request
+                res.writeHead(200, {'Content-Type': 'text/html'});
                 res.end(contents);
             } else {
                 //otherwise, let us inspect the eror
