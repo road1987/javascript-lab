@@ -6,10 +6,11 @@ const
   mime = require('mime-types');
 const PORT = process.env.PORT || 5000;
 const { readdirSync } = require('fs');
-const ignoreDirectories = [".git","node_modules"];
+const ignoreDirectories = ["node_modules"];
 const getDirectories = source => {
   return readdirSync(source, { withFileTypes: true })
     .filter(item => item.isDirectory()&&ignoreDirectories.indexOf(item.name)<0)
+    .filter(item => !/^./.test(item.name))
     .map(item =>item.name);
 };
     
