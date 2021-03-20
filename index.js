@@ -10,7 +10,7 @@ const ignoreDirectories = ["node_modules"];
 const getDirectories = source => {
   return readdirSync(source, { withFileTypes: true })
     .filter(item => item.isDirectory()&&ignoreDirectories.indexOf(item.name)<0)
-    .filter(item => !/^./.test(item.name))
+    .filter(item => /^[^.]/.test(item.name))
     .map(item =>item.name);
 };
     
