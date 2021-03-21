@@ -31,7 +31,7 @@ function requestHandler(req, res) {
     const directorLinks = directors.map( name => `<a href="/${name}/index.html">${name}</a>` );
     const response = 
     `<html>
-      <head><title>LABS</title></head>
+      <head><title>LABS</title></head> 
       <body>
        ${directorLinks.join("<br/>")}
       </body>
