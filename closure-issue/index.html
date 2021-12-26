@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+<script src="jquery-1.7.2.min.js"></script>
+<style>
+</style>
+</head>
+
+<body>
+	<div>
+		<input type="text" id="JS_btn" type="button" value="20">
+ 	</div>
+	
+	<script>
+		var instance = null;
+		$("#JS_btn").click(function(oEvent){
+			if(!instance){
+				instance = new Person(oEvent);
+			}
+			alert(instance.age);
+		});
+		
+		function Person(oEvent){
+			this.age = oEvent.currentTarget.value
+		}
+	</script>
+</body>
+</html>
