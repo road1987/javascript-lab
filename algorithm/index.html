@@ -1,0 +1,38 @@
+<html>
+<meta charset="UTF-8"/>
+<body>
+<input id="sourceArray" type="text" value="1,23,2,4,3,10,12,89,12,34,32,66,22"/><input id="calc" type="button"  value="calc..."/>
+<h3><label>quickSort:</label></h3>
+<div id="result"></div>
+</body>
+
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+	(function(){
+		
+		$("#calc").click(function(){
+			var sourceArray = $("#sourceArray").val().split(",");
+			sourceArray = sourceArray.map(function(element){
+				return parseInt(element);
+			});
+			$("#result").html(quickSort(sourceArray).toString());
+		});
+
+		function quickSort(array){
+			if(array.length <= 1){
+				return array;
+			}else{
+				var pivot = array.pop();
+				var lessArr = [] , greatArr = [];
+				array.forEach(element => {
+					element <= pivot ? lessArr.push(element) : greatArr.push(element);
+				});
+				return quickSort(lessArr).concat([pivot] , quickSort(greatArr));
+			}
+		}
+	})();
+
+	
+</script>
+
+</html>
