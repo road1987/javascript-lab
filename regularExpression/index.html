@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<h1>PrimitiveArrayString</h1>
+<div id="primitiveArrayString"></div>
+
+<h1>After Processing</h1>
+<div id="afterProcessing"></div>
+<div id="afterProcessing2"></div>
+
+<h1>Recover</h1>
+<h2>Recover : PreProcess</h2>
+<div id="recoverPreProcess"></div>
+<h2>Recover : Eacape(\  and ")</h2>
+<div id="recoverEscape"></div>
+<h2>Recover(result) : Add double quote</h2>
+<div id="recoverResult"></div>
+
+
+
+
+<a href="https://blog.csdn.net/Madenhaire/article/details/118941470">
+    前向断言/前向预查/正向断言/正向预查（lookahead assertions）
+</a>
+<br/>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Assertions">
+    正则表达式，断言
+</a>
+<br/>
+<a href="https://blog.stevenlevithan.com/archives/mimic-lookbehind-javascript">
+    解决浏览器不支持 lookbehind assertions
+</a>
+
+
+
+<body>
+<script>
+    // method 1 : 非后向断言 negative lookbehind assert
+    var primitiveArray = ["true","1","\"st/r\\\"ing\"" , "\"\\string\"+1+\"stri,ng\"" , "1 + \"string\" + 1","'variables[\"attr\"][0]'" ,"'variables.attr[0]'", "\"string\" + 'variable'+1"];
+    var primitiveArrayString = JSON.stringify(primitiveArray);
+    document.getElementById("primitiveArrayString").innerHTML = primitiveArrayString;
+    var expectAfterProcess = `[true,1,"st/r\\"ing","\\string"+1+"stri,ng",1 + "string" + 1,'variables["attr"][0]','variables.attr[0]',"string" + 'variable'+1]`;
+    var afterProcessing = primitiveArrayString.replace(/"(.*?)(?<!\\)"/g,function(matched,s0){
+        console.log(matched);
+        s0=s0.replaceAll('\\\"','\"');
+        s0=s0.replaceAll('\\\\','\\');
+        console.log(s0);
+        return s0;
+    });
+    alert("assert:" + (expectAfterProcess == afterProcessing));
+    document.getElementById("afterProcessing").innerHTML =  afterProcessing;
+
+    //method 2
+    var afterProcessing2 = primitiveArrayString.replace(/"((.*?)[^\\])"/g,function(s0,s1){
+        s1=s1.replaceAll('\\\"','\"');
+        s1=s1.replaceAll('\\\\','\\');
+        console.log(s1);
+        return s1;
+    });
+    document.getElementById("afterProcessing2").innerHTML =  afterProcessing2;
+
+    //预处理，先把用于分隔的逗号转换成@,@,再利用逗号，分隔，再一一处理
+    //1.first replace all comma (,) to (&COMMA& ) in a string"" , because we will use the
+    //2.add backslash(\) for all " and \ , escape;
+    //3.add double quote for each item or an expression ( 'variable' + 123   or   "sss" + 111)
+    var recoverResult = afterProcessing.replace(/".*?[^\\]"/g,function(matched){
+        console.log("recover(matched):" + matched);
+        matched = matched.replaceAll(",","&COMMA&");
+        return matched;
+    });
+    document.getElementById("recoverPreProcess").innerHTML =  recoverResult;
+    recoverResult=recoverResult.replaceAll('\\','\\\\');
+    recoverResult=recoverResult.replaceAll('\"','\\\"');
+    document.getElementById("recoverEscape").innerHTML =  recoverResult;
+    var aRecoverResult = recoverResult.split(",");
+    aRecoverResult = aRecoverResult.map(function (item,index,array){
+        if(index === 0){
+            item = ['[','"', item.substr(1) ,'"'].join("");
+        }else if(index === array.length-1){
+            item = ['"', item.substr(0,item.length-1) ,'"',']'].join("");
+        }else{
+            item = ['"',item,'"'].join("");
+        }
+        console.log(item);
+        return item.replaceAll("&COMMA&",",");
+    });
+    document.getElementById("recoverResult").innerHTML =  aRecoverResult.join(",");
+    alert("assert:" + (primitiveArrayString == aRecoverResult.join(",")));
+</script>
+</body>
+</html>
